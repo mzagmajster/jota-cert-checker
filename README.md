@@ -16,6 +16,14 @@ Optionally, you can also embed the HTML and send it via:
 
 ## Usage
 
+Copy example file in .env to docker.env. After that build container and run it with the following:
+
+```
+docker build . -t jota-cert-checker --no-cache
+docker run --env-file=./.env/docker.env jota-cert-checker
+```
+
+
 For example, we have the following file called sitelist that contains a list of domains with the HTTPS port, one domain per line:
 
 ```
