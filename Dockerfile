@@ -1,12 +1,11 @@
 FROM alpine:3.14
 
-MAINTAINER jota
-
-RUN apk add bash openssl mutt coreutils ssmtp
+RUN apk add bash openssl mutt coreutils ssmtp curl
 RUN mkdir /home/jota
 COPY jota-cert-checker.sh /home/jota/
+COPY ssl-check-wrapper.sh /home/jota/
 COPY html2img.py /home/jota/
-COPY sitelist /home/jota/
+#COPY sitelist /home/jota/
 COPY crontab.txt /home/jota/
 COPY entry.sh /home/jota/
 COPY ssmtp.conf /etc/ssmtp/
