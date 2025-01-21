@@ -1,6 +1,6 @@
 #!/bin/bash
+# set -x
 
-# Function to send a Slack notification
 notify_slack() {
   WEBHOOK=$SC_SLACK_WEBHOOK
   SLACK_CHANNEL=$SC_SLACK_CHANNEL
@@ -27,10 +27,11 @@ notify_slack() {
 
 # Get the output of the script and filter for Alert, Expired, or Unknown statuses
 output=$(alert_days=$SC_STATUS_ALERT_DAYS ./jota-cert-checker.sh -f sitelist -o terminal | grep -E 'Alert|Expired|Unknown')
-output2=$(echo $output | head -n -3)
+alert_count=$(echo $output | grep -o "Alert" | wc -l)
+expired_count=$(echo $output | grep -o "Expired" | wc -l)
+unknown_count=$(echo $output | grep -o "Unknown" | wc -l)
 
-# Check if output is not empty
-if [[ ! -z $output2 ]]; then
+if [[ $alert_count -gt 1 || $expired_count -gt 1 || $unknown_count -gt 1 ]]; then
 
     color="#ff0000"
     clean_output=$(echo "$output" | sed -r 's/\x1b\[[0-9;]*m//g')
