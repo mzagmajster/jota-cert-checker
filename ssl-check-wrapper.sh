@@ -27,9 +27,10 @@ notify_slack() {
 
 # Get the output of the script and filter for Alert, Expired, or Unknown statuses
 output=$(alert_days=$SC_STATUS_ALERT_DAYS ./jota-cert-checker.sh -f sitelist -o terminal | grep -E 'Alert|Expired|Unknown')
+output2=$(echo $output | head -n -3)
 
 # Check if output is not empty
-if [[ ! -z $output ]]; then
+if [[ ! -z $output2 ]]; then
 
     color="#ff0000"
     clean_output=$(echo "$output" | sed -r 's/\x1b\[[0-9;]*m//g')
